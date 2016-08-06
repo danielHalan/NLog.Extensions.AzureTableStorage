@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NLog.Extensions.AzureTableStorage.Itq</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/danielHalan/NLog.Extensions.AzureTableStorage</licenseUrl>
+    <projectUrl>https://github.com/danielHalan/NLog.Extensions.AzureTableStorage</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NLog Table Target</description>
+    <releaseNotes>NLog for Azure Table with support for Tenant var</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags></tags>
+  </metadata>
+</package>

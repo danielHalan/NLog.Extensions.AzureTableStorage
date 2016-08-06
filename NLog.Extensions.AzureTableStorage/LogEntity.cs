@@ -9,11 +9,12 @@ namespace NLog.Extensions.AzureTableStorage
     {
         private readonly object _syncRoot = new object();
 
-        public LogEntity(string partitionKeyPrefix, LogEventInfo logEvent, string layoutMessage, string timestampFormatString = "g")
+        public LogEntity(string partitionKeyPrefix, string tenant, LogEventInfo logEvent, string layoutMessage, string timestampFormatString = "g")
         {
             lock (_syncRoot)
             {
                 LoggerName = logEvent.LoggerName;
+                Tenant = tenant;
                 LogTimeStamp = logEvent.TimeStamp.ToString(timestampFormatString);
                 Level = logEvent.Level.Name;
                 Message = logEvent.FormattedMessage;
@@ -34,11 +35,10 @@ namespace NLog.Extensions.AzureTableStorage
                 {
                     StackTrace = logEvent.StackTrace.ToString();
                 }
-                RowKey = String.Format("{0}__{1}", (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("d19"), Guid.NewGuid());
-                PartitionKey = !string.IsNullOrWhiteSpace(partitionKeyPrefix)
-                                ? partitionKeyPrefix + "." + LoggerName
-                                : LoggerName;
                 MachineName = Environment.MachineName;
+                var prefix = tenant ?? partitionKeyPrefix;
+                PartitionKey = string.Concat(prefix, MachineName, LoggerName);
+                RowKey = ((DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks) + Guid.NewGuid().GetHashCode() ).ToString("d19");
             }
 
         }
@@ -67,5 +67,7 @@ namespace NLog.Extensions.AzureTableStorage
         public string MessageWithLayout { get; set; }
         public string ExceptionData { get; set; }
         public string MachineName { get; set; }
-    }
+        public string Tenant { get; set; }
+
+  }
 }

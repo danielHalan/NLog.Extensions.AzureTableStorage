@@ -66,11 +66,12 @@ namespace NLog.Extensions.AzureTableStorage
 
                 if (string.IsNullOrEmpty(LogTimestampFormatString))
                 {
-                    _tableStorageManager.Add(new LogEntity(PartitionKeyPrefix, logEvent, layoutMessage));
+                     
+                    _tableStorageManager.Add(new LogEntity(PartitionKeyPrefix, MappedDiagnosticsContext.Get("tenant"), logEvent, layoutMessage));
                 }
                 else
                 {
-                    _tableStorageManager.Add(new LogEntity(PartitionKeyPrefix, logEvent, layoutMessage, LogTimestampFormatString));
+                    _tableStorageManager.Add(new LogEntity(PartitionKeyPrefix, MappedDiagnosticsContext.Get("tenant"), logEvent, layoutMessage, LogTimestampFormatString));
                 }
             }
         }
